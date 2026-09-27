@@ -1,0 +1,9 @@
+{
+  "name":"Kransbokning",
+  "short_name":"Kransbokning",
+  "start_url":"./",
+  "scope":"./",
+  "display":"standalone",
+  "background_color":"#f6f1e7",
+  "theme_color":"#315b46"
+}
