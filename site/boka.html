@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f6f1e7">
+<title>Boka kransbindning</title>
+<style>
+:root{--green:#315b46;--green2:#244536;--cream:#f6f1e7;--card:#fffdf9;--text:#243027;--muted:#6f786f;--line:#ded8cc;--accent:#a55245}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--cream);color:var(--text)}
+.wrap{max-width:920px;margin:auto;padding:24px 16px 56px}.hero{background:linear-gradient(145deg,var(--green),var(--green2));color:white;border-radius:26px;padding:28px;margin-bottom:18px}
+.hero h1{margin:0 0 8px;font-size:34px;line-height:1.05}.hero p{margin:0;opacity:.9;max-width:620px;line-height:1.5}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;margin:14px 0;box-shadow:0 4px 18px #00000008}
+h2{margin:0 0 12px;font-size:22px}.dates{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.date{border:1px solid var(--line);background:white;border-radius:16px;padding:14px;cursor:pointer;text-align:left}
+.date.selected{outline:3px solid #315b4633;border-color:var(--green)}.date b{display:block;font-size:18px}.date span{font-size:13px;color:var(--muted)}
+label{display:block;font-size:13px;font-weight:700;margin-top:10px}input,textarea,select{width:100%;font:inherit;border:1px solid var(--line);border-radius:13px;padding:12px;background:white;margin-top:5px}
+textarea{min-height:105px;resize:vertical}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button,.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;border:0;border-radius:14px;background:var(--green);color:white;font-weight:750;font-size:16px;padding:0 18px;text-decoration:none;cursor:pointer}
+.btn.alt{background:#e9e3d8;color:var(--text)}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.note{font-size:13px;color:var(--muted);line-height:1.45}
+.success{display:none;background:#e8f1ea;border:1px solid #c9ddcf;border-radius:14px;padding:14px;margin-top:14px}
+@media(max-width:680px){.hero{padding:22px}.hero h1{font-size:29px}.dates{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.wrap{padding-top:14px}.card{padding:17px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div style="font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.8">Vinterevent</div>
+    <h1>Bind din egen julkrans</h1>
+    <p>En mysig stund med material, inspiration och fika. Välj det datum som passar dig och skicka en bokningsförfrågan.</p>
+  </section>
+
+  <section class="card">
+    <h2>Välj datum</h2>
+    <div class="dates">
+      <button class="date" data-date="Lördag 28 november"><b>28 nov</b><span>Lördag · 10 platser</span></button>
+      <button class="date" data-date="Söndag 29 november"><b>29 nov</b><span>Söndag · 10 platser</span></button>
+      <button class="date" data-date="Lördag 5 december"><b>5 dec</b><span>Lördag · 10 platser</span></button>
+    </div>
+    <p class="note">Exempeldatum tills de riktiga dagarna och tiderna är bestämda. Max 10 personer per tillfälle.</p>
+  </section>
+
+  <section class="card">
+    <h2>Bokningsförfrågan</h2>
+    <form id="bookingForm">
+      <input type="hidden" id="chosenDate" required>
+      <div class="grid">
+        <div><label for="name">Namn</label><input id="name" autocomplete="name" required></div>
+        <div><label for="phone">Mobil</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" required></div>
+      </div>
+      <div class="grid">
+        <div><label for="email">E-post</label><input id="email" type="email" autocomplete="email" required></div>
+        <div><label for="spots">Antal personer</label><select id="spots"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+      </div>
+      <label for="message">Är det något särskilt ni undrar över?</label>
+      <textarea id="message" placeholder="Skriv gärna en fråga eller önskemål här..."></textarea>
+      <div class="actions"><button type="submit">Skicka bokningsförfrågan</button></div>
+      <div id="success" class="success"><b>Tack!</b><br>Det här är testversionen. Formuläret fungerar på mobil och dator, men skickar ännu inte uppgifterna till Linda.</div>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Frågor?</h2>
+    <p>Kontakta Linda så hjälper hon dig.</p>
+    <div class="actions">
+      <a class="btn" href="tel:+46700000000">Ring Linda</a>
+      <a class="btn alt" href="sms:+46700000000">SMS Linda</a>
+    </div>
+    <p class="note">Exempelnummer: 070-000 00 00. Byts mot Lindas riktiga nummer när ni vill.</p>
+  </section>
+</div>
+<script>
+const dateButtons=[...document.querySelectorAll(".date")];
+dateButtons.forEach(btn=>btn.addEventListener("click",()=>{
+  dateButtons.forEach(b=>b.classList.remove("selected"));
+  btn.classList.add("selected");
+  chosenDate.value=btn.dataset.date;
+}));
+document.getElementById("bookingForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  if(!chosenDate.value){alert("Välj ett datum först.");return;}
+  document.getElementById("success").style.display="block";
+  document.getElementById("success").scrollIntoView({behavior:"smooth",block:"center"});
+});
+</script>
+</body>
+</html>
