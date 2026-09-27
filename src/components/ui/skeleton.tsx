@@ -1,0 +1,1 @@
+{"text":"import { cn } from \"@/lib/utils\";\n\nfunction Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {\n  return <div className={cn(\"animate-pulse rounded-md bg-primary/10\", className)} {...props} />;\n}\n\nexport { Skeleton };"}
