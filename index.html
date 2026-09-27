@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#5d6b49">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Kransbokning</title>
+<style>
+:root{--bg:#f6f3ec;--card:#fff;--ink:#253126;--muted:#6d746b;--green:#5d6b49;--green2:#7b8a65;--line:#e4dfd4;--danger:#a14d47}
+*{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+.wrap{max-width:720px;margin:auto;padding:calc(18px + env(safe-area-inset-top)) 16px calc(90px + env(safe-area-inset-bottom))}
+header{padding:10px 2px 18px} h1{font-family:Georgia,serif;font-size:31px;margin:0 0 5px} .sub{color:var(--muted);font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:0 0 14px}
+.stat,.card{background:var(--card);border:1px solid var(--line);border-radius:17px;box-shadow:0 3px 14px #00000008}
+.stat{padding:13px 10px;text-align:center}.stat b{font-size:22px;display:block}.stat span{font-size:11px;color:var(--muted)}
+.card{padding:16px;margin-bottom:12px} h2{font-size:17px;margin:0 0 12px}
+label{display:block;font-size:12px;font-weight:650;margin:10px 0 5px;color:#596154}
+input,select,textarea{width:100%;font:inherit;font-size:16px;padding:12px;border:1px solid #d9d4c9;border-radius:12px;background:#fff;color:var(--ink)}
+textarea{min-height:72px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+button{border:0;border-radius:13px;padding:12px 14px;font:inherit;font-weight:700;cursor:pointer}
+.primary{width:100%;background:var(--green);color:#fff;margin-top:13px}.secondary{background:#eef0e8;color:var(--green)}.danger{background:#f7e9e7;color:var(--danger)}
+.booking{padding:13px 0;border-top:1px solid var(--line)}.booking:first-child{border-top:0;padding-top:0}
+.top{display:flex;gap:8px;align-items:flex-start;justify-content:space-between}.name{font-weight:750}.meta{font-size:13px;color:var(--muted);margin-top:3px}.badge{white-space:nowrap;background:#edf0e8;color:#566344;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:700}
+.actions{display:flex;gap:7px;margin-top:9px}.actions button{padding:8px 10px;font-size:12px}
+.empty{text-align:center;color:var(--muted);padding:20px 5px}.foot{font-size:11px;color:var(--muted);text-align:center;margin-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Kransbokning</h1><div class="sub">En enkel testapp för Lindas kransevent</div></header>
+
+<section class="stats">
+<div class="stat"><b id="count">0</b><span>bokningar</span></div>
+<div class="stat"><b id="people">0</b><span>personer</span></div>
+<div class="stat"><b id="revenue">0</b><span>kr totalt</span></div>
+</section>
+
+<section class="card">
+<h2>Ny bokning</h2>
+<form id="form">
+<label>Namn</label><input id="name" required placeholder="Kundens namn">
+<div class="row"><div><label>Telefon</label><input id="phone" inputmode="tel" placeholder="070..."></div><div><label>Antal personer</label><input id="qty" type="number" min="1" value="1"></div></div>
+<div class="row"><div><label>Datum</label><input id="date" type="date"></div><div><label>Tid</label><input id="time" type="time"></div></div>
+<div class="row"><div><label>Pris/person</label><input id="price" type="number" min="0" value="0"></div><div><label>Status</label><select id="status"><option>Bokad</option><option>Betald</option><option>Reserv</option></select></div></div>
+<label>Anteckning</label><textarea id="note" placeholder="Önskemål, allergi, betalning..."></textarea>
+<button class="primary" type="submit">Spara bokning</button>
+</form>
+</section>
+
+<section class="card">
+<div class="top"><h2>Bokningar</h2><button class="secondary" id="exportBtn" type="button">Kopiera lista</button></div>
+<div id="list"></div>
+</section>
+<div class="foot">Testversion · Uppgifterna sparas lokalt på den här enheten</div>
+</div>
+
+<script>
+const KEY='krans-bookings-v1';
+let bookings=JSON.parse(localStorage.getItem(KEY)||'[]');
+const $=id=>document.getElementById(id);
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function save(){localStorage.setItem(KEY,JSON.stringify(bookings));render()}
+function render(){
+ $('count').textContent=bookings.length;
+ $('people').textContent=bookings.reduce((a,b)=>a+(+b.qty||0),0);
+ $('revenue').textContent=bookings.reduce((a,b)=>a+(+b.qty||0)*(+b.price||0),0).toLocaleString('sv-SE');
+ if(!bookings.length){$('list').innerHTML='<div class="empty">Inga bokningar ännu.</div>';return}
+ const sorted=[...bookings].sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+ $('list').innerHTML=sorted.map(b=>`<div class="booking">
+  <div class="top"><div><div class="name">${esc(b.name)} · ${b.qty} pers</div>
+  <div class="meta">${esc(b.date||'Datum ej satt')} ${esc(b.time||'')} ${b.phone?'· '+esc(b.phone):''}</div></div><span class="badge">${esc(b.status)}</span></div>
+  ${b.note?`<div class="meta" style="margin-top:7px">${esc(b.note)}</div>`:''}
+  <div class="meta">${(+b.price||0)>0?((+b.qty||0)*(+b.price||0)).toLocaleString('sv-SE')+' kr':''}</div>
+  <div class="actions"><button class="secondary" onclick="cycle('${b.id}')">Ändra status</button><button class="danger" onclick="del('${b.id}')">Ta bort</button></div>
+ </div>`).join('');
+}
+function del(id){if(confirm('Ta bort bokningen?')){bookings=bookings.filter(b=>b.id!==id);save()}}
+function cycle(id){let b=bookings.find(x=>x.id===id);if(!b)return;let s=['Bokad','Betald','Reserv'];b.status=s[(s.indexOf(b.status)+1)%s.length];save()}
+$('form').addEventListener('submit',e=>{
+ e.preventDefault();
+ bookings.push({id:Date.now().toString(),name:$('name').value.trim(),phone:$('phone').value.trim(),qty:+$('qty').value||1,date:$('date').value,time:$('time').value,price:+$('price').value||0,status:$('status').value,note:$('note').value.trim()});
+ save(); e.target.reset(); $('qty').value=1; $('price').value=0;
+});
+$('exportBtn').onclick=async()=>{
+ let text=bookings.map(b=>`${b.date||'-'} ${b.time||''} | ${b.name} | ${b.qty} pers | ${b.status} | ${b.phone||''}`).join('\n');
+ try{await navigator.clipboard.writeText(text);$('exportBtn').textContent='Kopierad';setTimeout(()=>$('exportBtn').textContent='Kopiera lista',1200)}catch(e){alert(text)}
+};
+render();
+</script>
+</body>
+</html>
