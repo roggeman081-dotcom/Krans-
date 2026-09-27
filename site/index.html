@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f6f1e7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Kransbokning">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <title>Kransbokning</title>
+  <style>
+    :root{--green:#315b46;--green2:#244536;--cream:#f6f1e7;--card:#fffdf9;--red:#a55245;--text:#243027;--muted:#6f786f;--line:#ded8cc}
+    *{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--cream);color:var(--text)}
+    main{max-width:720px;margin:auto;padding:18px 16px 100px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+    h1{font-size:28px;margin:0}h2{font-size:20px;margin:0 0 12px}.sub{color:var(--muted);font-size:14px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0;box-shadow:0 2px 10px #00000008}
+    .hero{background:var(--green);color:white}.hero .sub{color:#e7eee9}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .stat{background:#ffffff14;border-radius:14px;padding:12px}.stat b{font-size:22px;display:block}
+    button,.btn{min-height:46px;border:0;border-radius:13px;padding:0 14px;font-size:16px;font-weight:650;background:var(--green);color:white}
+    .secondary{background:#e9e3d8;color:var(--text)}.danger{background:var(--red)}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    input,select,textarea{width:100%;font:inherit;padding:12px;border:1px solid var(--line);border-radius:12px;background:white;margin:5px 0 12px}
+    label{font-size:13px;font-weight:650}.item{padding:12px 0;border-bottom:1px solid var(--line)}.item:last-child{border:0}
+    .pill{font-size:12px;font-weight:700;padding:5px 9px;border-radius:99px;background:#e6efe8;color:var(--green2)}
+    nav{position:fixed;bottom:0;left:0;right:0;background:#fffdf9eF;backdrop-filter:blur(12px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:6px max(8px,env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));z-index:10}
+    nav button{background:transparent;color:var(--muted);font-size:12px;padding:5px;min-height:52px}nav button.active{color:var(--green);font-weight:800}
+    .hidden{display:none}.empty{text-align:center;color:var(--muted);padding:28px 10px}.space{height:8px}
+    @media(max-width:420px){.grid{grid-template-columns:1fr 1fr}h1{font-size:25px}}
+  </style>
+</head>
+<body>
+<main>
+  <div class="top"><div><h1>Kransbokning</h1><div class="sub">Event, bokningar och material</div></div><button class="secondary" onclick="newBooking()">+ Bokning</button></div>
+  <section id="home"></section>
+  <section id="events" class="hidden"></section>
+  <section id="bookings" class="hidden"></section>
+  <section id="materials" class="hidden"></section>
+  <section id="more" class="hidden"></section>
+</main>
+<nav>
+  <button data-tab="home" class="active">Hem</button>
+  <button data-tab="events">Event</button>
+  <button data-tab="bookings">Bokningar</button>
+  <button data-tab="materials">Material</button>
+  <button data-tab="more">Mer</button>
+</nav>
+<script>
+const KEY="kransbokning_v1";
+const seed={events:[{id:"e1",name:"Julkranskväll",date:"2026-11-28",time:"18:00",place:"Gården",max:12,price:495},{id:"e2",name:"Adventskransen",date:"2026-12-05",time:"14:00",place:"Gården",max:10,price:495}],bookings:[{id:"b1",eventId:"e1",name:"Anna",phone:"0701234567",spots:2,paid:true},{id:"b2",eventId:"e1",name:"Maria",phone:"0702345678",spots:1,paid:false}],materials:[{id:"m1",eventId:"e1",name:"Stommar",qty:12,bought:false},{id:"m2",eventId:"e1",name:"Granris",qty:6,bought:true}]};
+let db=load();
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||structuredClone(seed)}catch{return structuredClone(seed)}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));render()}
+function fmt(d){if(!d)return"";return new Date(d+"T12:00").toLocaleDateString("sv-SE",{day:"numeric",month:"short"})}
+function stats(e){const bs=db.bookings.filter(b=>b.eventId===e.id);const spots=bs.reduce((s,b)=>s+Number(b.spots||0),0);const paid=bs.filter(b=>b.paid).reduce((s,b)=>s+Number(b.spots||0)*Number(e.price||0),0);return{spots,left:Math.max(0,e.max-spots),income:spots*e.price,paid}}
+function kr(n){return new Intl.NumberFormat("sv-SE",{style:"currency",currency:"SEK",maximumFractionDigits:0}).format(n||0)}
+function renderHome(){const e=[...db.events].sort((a,b)=>a.date.localeCompare(b.date))[0];if(!e){home.innerHTML='<div class="card empty">Inga event ännu.</div>';return}const s=stats(e);home.innerHTML=`
+<div class="card hero"><div class="sub">Nästa event</div><h2>${e.name}</h2><div>${fmt(e.date)} · ${e.time} · ${e.place}</div><div class="grid" style="margin-top:14px"><div class="stat"><b>${s.spots}/${e.max}</b><span>Bokade</span></div><div class="stat"><b>${s.left}</b><span>Platser kvar</span></div><div class="stat"><b>${kr(s.income)}</b><span>Förväntat</span></div><div class="stat"><b>${kr(s.paid)}</b><span>Betalt</span></div></div></div>
+<div class="card"><h2>Snabbval</h2><div class="row"><button onclick="newBooking()">Ny bokning</button><button class="secondary" onclick="newEvent()">Nytt event</button></div></div>`}
+function renderEvents(){events.innerHTML='<div class="card"><h2>Event</h2><button onclick="newEvent()">+ Nytt event</button>'+db.events.map(e=>{const s=stats(e);return `<div class="item"><div class="row" style="justify-content:space-between"><b>${e.name}</b><span class="pill">${s.left} kvar</span></div><div class="sub">${fmt(e.date)} · ${e.time} · ${e.place}</div><div class="sub">${s.spots}/${e.max} bokade · ${kr(e.price)}/person</div></div>`}).join('')+'</div>'}
+function renderBookings(){bookings.innerHTML='<div class="card"><h2>Bokningar</h2><button onclick="newBooking()">+ Ny bokning</button>'+db.bookings.map(b=>{const e=db.events.find(x=>x.id===b.eventId);return `<div class="item"><div class="row" style="justify-content:space-between"><b>${b.name}</b><span class="pill">${b.paid?'Betald':'Obetald'}</span></div><div class="sub">${e?.name||'Okänt event'} · ${b.spots} plats(er)</div><div class="row" style="margin-top:8px"><a class="btn" style="text-decoration:none;display:inline-flex;align-items:center" href="tel:${b.phone}">Ring</a><a class="btn secondary" style="text-decoration:none;display:inline-flex;align-items:center" href="sms:${b.phone}">SMS</a><button class="secondary" onclick="togglePaid('${b.id}')">${b.paid?'Markera obetald':'Markera betald'}</button></div></div>`}).join('')+'</div>'}
+function renderMaterials(){materials.innerHTML='<div class="card"><h2>Material</h2><button onclick="newMaterial()">+ Lägg till</button>'+db.materials.map(m=>{const e=db.events.find(x=>x.id===m.eventId);return `<div class="item"><div class="row" style="justify-content:space-between"><b>${m.name} × ${m.qty}</b><button class="secondary" onclick="toggleBought('${m.id}')">${m.bought?'✓ Inköpt':'Ej inköpt'}</button></div><div class="sub">${e?.name||''}</div></div>`}).join('')+'</div>'}
+function renderMore(){more.innerHTML=`<div class="card"><h2>Mer</h2><p class="sub">All data sparas på den här telefonen i Safari.</p><div class="row"><button onclick="backup()">Exportera backup</button><button class="danger" onclick="resetData()">Återställ exempeldata</button></div></div><div class="card"><h2>iPhone</h2><p>Öppna sidan i Safari → tryck <b>Dela</b> → <b>Lägg till på hemskärmen</b>.</p></div>`}
+function render(){renderHome();renderEvents();renderBookings();renderMaterials();renderMore()}
+function form(title,body,onSave){const w=window.open("","_self");document.querySelector("main").innerHTML=`<div class="card"><h2>${title}</h2>${body}<div class="row"><button id="saveBtn">Spara</button><button class="secondary" onclick="location.reload()">Avbryt</button></div></div>`;document.querySelector("nav").style.display="none";saveBtn.onclick=onSave}
+function newEvent(){form("Nytt event",`<label>Namn</label><input id="n"><label>Datum</label><input id="d" type="date"><label>Tid</label><input id="t" type="time"><label>Plats</label><input id="p"><label>Max platser</label><input id="mx" type="number" value="12"><label>Pris/person</label><input id="pr" type="number" value="495">`,()=>{db.events.push({id:crypto.randomUUID(),name:n.value,date:d.value,time:t.value,place:p.value,max:+mx.value,price:+pr.value});save();location.reload()})}
+function newBooking(){if(!db.events.length)return alert("Skapa ett event först");form("Ny bokning",`<label>Event</label><select id="ev">${db.events.map(e=>`<option value="${e.id}">${e.name}</option>`).join('')}</select><label>Namn</label><input id="bn"><label>Mobil</label><input id="ph" inputmode="tel"><label>Antal platser</label><input id="sp" type="number" value="1"><label>Betalning</label><select id="pd"><option value="false">Obetald</option><option value="true">Betald</option></select>`,()=>{db.bookings.push({id:crypto.randomUUID(),eventId:ev.value,name:bn.value,phone:ph.value,spots:+sp.value,paid:pd.value==="true"});save();location.reload()})}
+function newMaterial(){if(!db.events.length)return alert("Skapa ett event först");form("Nytt material",`<label>Event</label><select id="mev">${db.events.map(e=>`<option value="${e.id}">${e.name}</option>`).join('')}</select><label>Material</label><input id="mn"><label>Antal</label><input id="mq" type="number" value="1">`,()=>{db.materials.push({id:crypto.randomUUID(),eventId:mev.value,name:mn.value,qty:+mq.value,bought:false});save();location.reload()})}
+function togglePaid(id){const x=db.bookings.find(b=>b.id===id);x.paid=!x.paid;save()}
+function toggleBought(id){const x=db.materials.find(m=>m.id===id);x.bought=!x.bought;save()}
+function backup(){const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="kransbokning-backup.json";a.click()}
+function resetData(){if(confirm("Återställ exempeldata?")){db=structuredClone(seed);save()}}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));document.getElementById(b.dataset.tab).classList.remove("hidden");document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active")});
+render();
+</script>
+</body>
+</html>
