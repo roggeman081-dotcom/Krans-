@@ -1,0 +1,1 @@
+{"text":"\"use client\";\n\nimport * as CollapsiblePrimitive from \"@radix-ui/react-collapsible\";\n\nconst Collapsible = CollapsiblePrimitive.Root;\n\nconst CollapsibleTrigger = CollapsiblePrimitive.CollapsibleTrigger;\n\nconst CollapsibleContent = CollapsiblePrimitive.CollapsibleContent;\n\nexport { Collapsible, CollapsibleTrigger, CollapsibleContent };"}
