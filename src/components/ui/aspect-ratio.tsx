@@ -1,1 +1,5 @@
-{"text":"import * as AspectRatioPrimitive from \"@radix-ui/react-aspect-ratio\";\n\nconst AspectRatio = AspectRatioPrimitive.Root;\n\nexport { AspectRatio };"}
+import * as AspectRatioPrimitive from "@radix-ui/react-aspect-ratio";
+
+const AspectRatio = AspectRatioPrimitive.Root;
+
+export { AspectRatio };

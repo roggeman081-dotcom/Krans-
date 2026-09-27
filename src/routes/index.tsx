@@ -1,1 +1,115 @@
-{"text":"import { createFileRoute, Link } from \"@tanstack/react-router\";\nimport { CalendarPlus, UserPlus, ClipboardList, MapPin, Clock } from \"lucide-react\";\nimport { AppShell, EmptyState, Stat, StatusPill } from \"../components/app-shell\";\nimport {\n  eventStats,\n  formatDatum,\n  kr,\n  nextEvent,\n  platsStatus,\n  useStore,\n} from \"../lib/store\";\n\nexport const Route = createFileRoute(\"/\")({\n  head: () => ({\n    meta: [\n      { title: \"Kransbokning – översikt\" },\n      { name: \"description\", content: \"Nästa event, platser och betalningar i en enkel överblick.\" },\n      { property: \"og:title\", content: \"Kransbokning – översikt\" },\n      { property: \"og:description\", content: \"Nästa event, platser och betalningar i en enkel överblick.\" },\n    ],\n  }),\n  component: Hem,\n});\n\nfunction Hem() {\n  const { data, ready } = useStore();\n  const ev = nextEvent(data);\n  const stats = ev ? eventStats(data, ev.id) : null;\n  const status = ev && stats ? platsStatus(stats.bokade, ev.maxPlatser) : null;\n\n  return (\n    <AppShell title=\"Kransbokning\" subtitle=\"Din överblick\">\n      {!ready ? (\n        <p className=\"text-sm text-muted-foreground\">Laddar …</p>\n      ) : !ev ? (\n        <EmptyState title=\"Inget event ännu\" text=\"Skapa ditt första event för att komma igång.\">\n          <Link\n            to=\"/event/ny\"\n            className=\"inline-flex min-h-13 items-center rounded-full bg-primary px-6 text-base font-semibold text-primary-foreground\"\n          >\n            Nytt event\n          </Link>\n        </EmptyState>\n      ) : (\n        <div className=\"space-y-5\">\n          <section className=\"card-surface p-5\">\n            <div className=\"flex items-start justify-between gap-3\">\n              <div>\n                <p className=\"text-xs font-semibold uppercase tracking-wide text-muted-foreground\">\n                  Nästa event\n                </p>\n                <h2 className=\"mt-1 font-display text-2xl leading-tight\">{ev.namn}</h2>\n              </div>\n              {status && <StatusPill tone={status.tone}>{status.text}</StatusPill>}\n            </div>\n            <p className=\"mt-3 text-base font-semibold capitalize\">{formatDatum(ev.datum)}</p>\n            <p className=\"mt-1 flex items-center gap-2 text-sm text-muted-foreground\">\n              <Clock className=\"size-4\" /> {ev.start}–{ev.slut}\n            </p>\n            <p className=\"mt-1 flex items-center gap-2 text-sm text-muted-foreground\">\n              <MapPin className=\"size-4\" /> {ev.plats}\n            </p>\n\n            <div className=\"mt-4 grid grid-cols-3 gap-2 text-center\">\n              <div className=\"rounded-xl bg-muted px-2 py-3\">\n                <p className=\"font-display text-xl\">\n                  {stats!.bokade}/{ev.maxPlatser}\n                </p>\n                <p className=\"text-xs text-muted-foreground\">Bokade</p>\n              </div>\n              <div className=\"rounded-xl bg-muted px-2 py-3\">\n                <p className=\"font-display text-xl\">{stats!.kvar}</p>\n                <p className=\"text-xs text-muted-foreground\">Kvar</p>\n              </div>\n              <div className=\"rounded-xl bg-muted px-2 py-3\">\n                <p className=\"font-display text-xl\">{stats!.paPlats}</p>\n                <p className=\"text-xs text-muted-foreground\">På plats</p>\n              </div>\n            </div>\n          </section>\n\n          <section className=\"grid grid-cols-2 gap-3\">\n            <Stat label=\"Förväntad försäljning\" value={kr(stats!.intakt)} />\n            <Stat label=\"Betalt\" value={kr(stats!.betalt)} tone=\"green\" />\n            <Stat label=\"Obetalt\" value={kr(stats!.obetalt)} tone=\"red\" />\n            <Stat label=\"Pris / person\" value={kr(ev.pris)} />\n          </section>\n\n          <section className=\"space-y-3\">\n            <Link\n              to=\"/bokningar/ny\"\n              search={{ event: ev.id }}\n              className=\"flex min-h-14 items-center gap-3 rounded-2xl bg-primary px-5 font-semibold text-primary-foreground\"\n            >\n              <UserPlus className=\"size-5\" /> Ny bokning\n            </Link>\n            <Link\n              to=\"/event/ny\"\n              className=\"flex min-h-14 items-center gap-3 rounded-2xl border border-input bg-card px-5 font-semibold\"\n            >\n              <CalendarPlus className=\"size-5 text-primary\" /> Nytt event\n            </Link>\n            <Link\n              to=\"/event/$id/deltagare\"\n              params={{ id: ev.id }}\n              className=\"flex min-h-14 items-center gap-3 rounded-2xl border border-input bg-card px-5 font-semibold\"\n            >\n              <ClipboardList className=\"size-5 text-primary\" /> Dagens deltagare\n            </Link>\n          </section>\n        </div>\n      )}\n    </AppShell>\n  );\n}"}
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { CalendarPlus, UserPlus, ClipboardList, MapPin, Clock } from "lucide-react";
+import { AppShell, EmptyState, Stat, StatusPill } from "../components/app-shell";
+import {
+  eventStats,
+  formatDatum,
+  kr,
+  nextEvent,
+  platsStatus,
+  useStore,
+} from "../lib/store";
+
+export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Kransbokning – översikt" },
+      { name: "description", content: "Nästa event, platser och betalningar i en enkel överblick." },
+      { property: "og:title", content: "Kransbokning – översikt" },
+      { property: "og:description", content: "Nästa event, platser och betalningar i en enkel överblick." },
+    ],
+  }),
+  component: Hem,
+});
+
+function Hem() {
+  const { data, ready } = useStore();
+  const ev = nextEvent(data);
+  const stats = ev ? eventStats(data, ev.id) : null;
+  const status = ev && stats ? platsStatus(stats.bokade, ev.maxPlatser) : null;
+
+  return (
+    <AppShell title="Kransbokning" subtitle="Din överblick">
+      {!ready ? (
+        <p className="text-sm text-muted-foreground">Laddar …</p>
+      ) : !ev ? (
+        <EmptyState title="Inget event ännu" text="Skapa ditt första event för att komma igång.">
+          <Link
+            to="/event/ny"
+            className="inline-flex min-h-13 items-center rounded-full bg-primary px-6 text-base font-semibold text-primary-foreground"
+          >
+            Nytt event
+          </Link>
+        </EmptyState>
+      ) : (
+        <div className="space-y-5">
+          <section className="card-surface p-5">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  Nästa event
+                </p>
+                <h2 className="mt-1 font-display text-2xl leading-tight">{ev.namn}</h2>
+              </div>
+              {status && <StatusPill tone={status.tone}>{status.text}</StatusPill>}
+            </div>
+            <p className="mt-3 text-base font-semibold capitalize">{formatDatum(ev.datum)}</p>
+            <p className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
+              <Clock className="size-4" /> {ev.start}–{ev.slut}
+            </p>
+            <p className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
+              <MapPin className="size-4" /> {ev.plats}
+            </p>
+
+            <div className="mt-4 grid grid-cols-3 gap-2 text-center">
+              <div className="rounded-xl bg-muted px-2 py-3">
+                <p className="font-display text-xl">
+                  {stats!.bokade}/{ev.maxPlatser}
+                </p>
+                <p className="text-xs text-muted-foreground">Bokade</p>
+              </div>
+              <div className="rounded-xl bg-muted px-2 py-3">
+                <p className="font-display text-xl">{stats!.kvar}</p>
+                <p className="text-xs text-muted-foreground">Kvar</p>
+              </div>
+              <div className="rounded-xl bg-muted px-2 py-3">
+                <p className="font-display text-xl">{stats!.paPlats}</p>
+                <p className="text-xs text-muted-foreground">På plats</p>
+              </div>
+            </div>
+          </section>
+
+          <section className="grid grid-cols-2 gap-3">
+            <Stat label="Förväntad försäljning" value={kr(stats!.intakt)} />
+            <Stat label="Betalt" value={kr(stats!.betalt)} tone="green" />
+            <Stat label="Obetalt" value={kr(stats!.obetalt)} tone="red" />
+            <Stat label="Pris / person" value={kr(ev.pris)} />
+          </section>
+
+          <section className="space-y-3">
+            <Link
+              to="/bokningar/ny"
+              search={{ event: ev.id }}
+              className="flex min-h-14 items-center gap-3 rounded-2xl bg-primary px-5 font-semibold text-primary-foreground"
+            >
+              <UserPlus className="size-5" /> Ny bokning
+            </Link>
+            <Link
+              to="/event/ny"
+              className="flex min-h-14 items-center gap-3 rounded-2xl border border-input bg-card px-5 font-semibold"
+            >
+              <CalendarPlus className="size-5 text-primary" /> Nytt event
+            </Link>
+            <Link
+              to="/event/$id/deltagare"
+              params={{ id: ev.id }}
+              className="flex min-h-14 items-center gap-3 rounded-2xl border border-input bg-card px-5 font-semibold"
+            >
+              <ClipboardList className="size-5 text-primary" /> Dagens deltagare
+            </Link>
+          </section>
+        </div>
+      )}
+    </AppShell>
+  );
+}

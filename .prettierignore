@@ -1,1 +1,8 @@
-{"text":"node_modules\ndist\n.output\n.vinxi\npnpm-lock.yaml\npackage-lock.json\nbun.lock\nrouteTree.gen.ts"}
+node_modules
+dist
+.output
+.vinxi
+pnpm-lock.yaml
+package-lock.json
+bun.lock
+routeTree.gen.ts

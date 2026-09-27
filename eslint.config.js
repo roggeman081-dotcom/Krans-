@@ -1,1 +1,40 @@
-{"text":"import js from \"@eslint/js\";\nimport eslintPluginPrettier from \"eslint-plugin-prettier/recommended\";\nimport globals from \"globals\";\nimport reactHooks from \"eslint-plugin-react-hooks\";\nimport reactRefresh from \"eslint-plugin-react-refresh\";\nimport tseslint from \"typescript-eslint\";\n\nexport default tseslint.config(\n  { ignores: [\"dist\", \".output\", \".vinxi\"] },\n  {\n    extends: [js.configs.recommended, ...tseslint.configs.recommended],\n    files: [\"**/*.{ts,tsx}\"],\n    languageOptions: {\n      ecmaVersion: 2020,\n      globals: globals.browser,\n    },\n    plugins: {\n      \"react-hooks\": reactHooks,\n      \"react-refresh\": reactRefresh,\n    },\n    rules: {\n      ...reactHooks.configs.recommended.rules,\n      \"no-restricted-imports\": [\n        \"error\",\n        {\n          paths: [\n            {\n              name: \"server-only\",\n              message:\n                \"TanStack Start does not use the Next.js `server-only` package. Rename the module to `*.server.ts` or mark it with `@tanstack/react-start/server-only`.\",\n            },\n          ],\n        },\n      ],\n      \"react-refresh/only-export-components\": [\"warn\", { allowConstantExport: true }],\n      \"@typescript-eslint/no-unused-vars\": \"off\",\n    },\n  },\n  eslintPluginPrettier,\n);"}
+import js from "@eslint/js";
+import eslintPluginPrettier from "eslint-plugin-prettier/recommended";
+import globals from "globals";
+import reactHooks from "eslint-plugin-react-hooks";
+import reactRefresh from "eslint-plugin-react-refresh";
+import tseslint from "typescript-eslint";
+
+export default tseslint.config(
+  { ignores: ["dist", ".output", ".vinxi"] },
+  {
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: ["**/*.{ts,tsx}"],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: globals.browser,
+    },
+    plugins: {
+      "react-hooks": reactHooks,
+      "react-refresh": reactRefresh,
+    },
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            {
+              name: "server-only",
+              message:
+                "TanStack Start does not use the Next.js `server-only` package. Rename the module to `*.server.ts` or mark it with `@tanstack/react-start/server-only`.",
+            },
+          ],
+        },
+      ],
+      "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+      "@typescript-eslint/no-unused-vars": "off",
+    },
+  },
+  eslintPluginPrettier,
+);

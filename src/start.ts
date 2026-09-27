@@ -1,1 +1,29 @@
-{"text":"import { createStart, createCsrfMiddleware, createMiddleware } from \"@tanstack/react-start\";\n\nimport { renderErrorPage } from \"./lib/error-page\";\n\nconst errorMiddleware = createMiddleware().server(async ({ next }) => {\n  try {\n    return await next();\n  } catch (error) {\n    if (error != null && typeof error === \"object\" && \"statusCode\" in error) {\n      throw error;\n    }\n    console.error(error);\n    return new Response(renderErrorPage(), {\n      status: 500,\n      headers: { \"content-type\": \"text/html; charset=utf-8\" },\n    });\n  }\n});\n\n// Start installs this automatically when src/start.ts is absent; defining the\n// file opts out, so re-add it explicitly to keep server functions protected\n// from cross-site requests.\nconst csrfMiddleware = createCsrfMiddleware({\n  filter: (ctx) => ctx.handlerType === \"serverFn\",\n});\n\nexport const startInstance = createStart(() => ({\n  requestMiddleware: [errorMiddleware, csrfMiddleware],\n}));"}
+import { createStart, createCsrfMiddleware, createMiddleware } from "@tanstack/react-start";
+
+import { renderErrorPage } from "./lib/error-page";
+
+const errorMiddleware = createMiddleware().server(async ({ next }) => {
+  try {
+    return await next();
+  } catch (error) {
+    if (error != null && typeof error === "object" && "statusCode" in error) {
+      throw error;
+    }
+    console.error(error);
+    return new Response(renderErrorPage(), {
+      status: 500,
+      headers: { "content-type": "text/html; charset=utf-8" },
+    });
+  }
+});
+
+// Start installs this automatically when src/start.ts is absent; defining the
+// file opts out, so re-add it explicitly to keep server functions protected
+// from cross-site requests.
+const csrfMiddleware = createCsrfMiddleware({
+  filter: (ctx) => ctx.handlerType === "serverFn",
+});
+
+export const startInstance = createStart(() => ({
+  requestMiddleware: [errorMiddleware, csrfMiddleware],
+}));

@@ -1,1 +1,30 @@
-{"text":"{\n  \"include\": [\"src/**/*.ts\", \"src/**/*.tsx\", \"vite.config.ts\", \"eslint.config.js\"],\n  \"compilerOptions\": {\n    \"target\": \"ES2022\",\n    \"jsx\": \"react-jsx\",\n    \"module\": \"ESNext\",\n    \"lib\": [\"ES2022\", \"DOM\", \"DOM.Iterable\"],\n    \"types\": [\"vite/client\"],\n\n    \"moduleResolution\": \"Bundler\",\n    \"allowImportingTsExtensions\": true,\n    \"verbatimModuleSyntax\": false,\n    \"noEmit\": true,\n\n    \"skipLibCheck\": true,\n    \"strict\": true,\n    \"noUnusedLocals\": false,\n    \"noUnusedParameters\": false,\n    \"noFallthroughCasesInSwitch\": true,\n    \"noImplicitOverride\": true,\n    \"noImplicitReturns\": true,\n    \"noPropertyAccessFromIndexSignature\": true,\n    \"noUncheckedIndexedAccess\": true,\n    \"exactOptionalPropertyTypes\": true,\n    \"noUncheckedSideEffectImports\": true,\n    \"paths\": {\n      \"@/*\": [\"./src/*\"]\n    }\n  }\n}"}
+{
+  "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts", "eslint.config.js"],
+  "compilerOptions": {
+    "target": "ES2022",
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["vite/client"],
+
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": false,
+    "noEmit": true,
+
+    "skipLibCheck": true,
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedSideEffectImports": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}

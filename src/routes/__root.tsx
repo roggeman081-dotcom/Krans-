@@ -1,1 +1,138 @@
-{"text":"import { QueryClient, QueryClientProvider } from \"@tanstack/react-query\";\nimport {\n  Outlet,\n  Link,\n  createRootRouteWithContext,\n  useRouter,\n  HeadContent,\n  Scripts,\n} from \"@tanstack/react-router\";\nimport { useEffect, type ReactNode } from \"react\";\n\nimport appCss from \"../styles.css?url\";\nimport { reportLovableError } from \"../lib/lovable-error-reporting\";\nimport { StoreProvider } from \"../lib/store\";\nimport { Toaster } from \"../components/ui/sonner\";\n\nfunction NotFoundComponent() {\n  return (\n    <div className=\"flex min-h-screen items-center justify-center bg-background px-4\">\n      <div className=\"max-w-md text-center\">\n        <h1 className=\"font-display text-6xl text-foreground\">404</h1>\n        <h2 className=\"mt-4 text-xl font-semibold text-foreground\">Sidan finns inte</h2>\n        <p className=\"mt-2 text-sm text-muted-foreground\">\n          Sidan du letar efter finns inte längre.\n        </p>\n        <div className=\"mt-6\">\n          <Link\n            to=\"/\"\n            className=\"inline-flex min-h-12 items-center justify-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground\"\n          >\n            Till startsidan\n          </Link>\n        </div>\n      </div>\n    </div>\n  );\n}\n\nfunction ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {\n  console.error(error);\n  const router = useRouter();\n  useEffect(() => {\n    reportLovableError(error, { boundary: \"tanstack_root_error_component\" });\n  }, [error]);\n\n  return (\n    <div className=\"flex min-h-screen items-center justify-center bg-background px-4\">\n      <div className=\"max-w-md text-center\">\n        <h1 className=\"font-display text-xl text-foreground\">Något gick fel</h1>\n        <p className=\"mt-2 text-sm text-muted-foreground\">\n          Försök igen eller gå tillbaka till startsidan.\n        </p>\n        <div className=\"mt-6 flex flex-wrap justify-center gap-2\">\n          <button\n            onClick={() => {\n              router.invalidate();\n              reset();\n            }}\n            className=\"inline-flex min-h-12 items-center justify-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground\"\n          >\n            Försök igen\n          </button>\n          <a\n            href=\"/\"\n            className=\"inline-flex min-h-12 items-center justify-center rounded-full border border-input bg-card px-6 text-sm font-semibold text-foreground\"\n          >\n            Till startsidan\n          </a>\n        </div>\n      </div>\n    </div>\n  );\n}\n\nexport const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({\n  head: () => ({\n    meta: [\n      { charSet: \"utf-8\" },\n      {\n        name: \"viewport\",\n        content: \"width=device-width, initial-scale=1, viewport-fit=cover\",\n      },\n      { title: \"Kransbokning\" },\n      { name: \"description\", content: \"Enkelt bokningsverktyg för kransbindningsevent.\" },\n      { name: \"theme-color\", content: \"#faf8f2\" },\n      { name: \"apple-mobile-web-app-capable\", content: \"yes\" },\n      { name: \"apple-mobile-web-app-title\", content: \"Kransbokning\" },\n      { name: \"apple-mobile-web-app-status-bar-style\", content: \"default\" },\n      { name: \"mobile-web-app-capable\", content: \"yes\" },\n      { property: \"og:type\", content: \"website\" },\n      { name: \"twitter:card\", content: \"summary_large_image\" },\n    ],\n    links: [\n      { rel: \"stylesheet\", href: appCss },\n      { rel: \"manifest\", href: \"/manifest.webmanifest\" },\n      { rel: \"apple-touch-icon\", href: \"/icons/icon-192.png\" },\n      { rel: \"icon\", type: \"image/png\", href: \"/favicon.png\" },\n      { rel: \"preconnect\", href: \"https://fonts.googleapis.com\" },\n      { rel: \"preconnect\", href: \"https://fonts.gstatic.com\", crossOrigin: \"anonymous\" },\n      {\n        rel: \"stylesheet\",\n        href: \"https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap\",\n      },\n    ],\n  }),\n  shellComponent: RootShell,\n  component: RootComponent,\n  notFoundComponent: NotFoundComponent,\n  errorComponent: ErrorComponent,\n});\n\nfunction RootShell({ children }: { children: ReactNode }) {\n  return (\n    <html lang=\"sv\">\n      <head>\n        <HeadContent />\n      </head>\n      <body>\n        {children}\n        <Scripts />\n      </body>\n    </html>\n  );\n}\n\nfunction RootComponent() {\n  const { queryClient } = Route.useRouteContext();\n\n  return (\n    <QueryClientProvider client={queryClient}>\n      <StoreProvider>\n        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}\n        <Outlet />\n        <Toaster position=\"top-center\" />\n      </StoreProvider>\n    </QueryClientProvider>\n  );\n}"}
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  Outlet,
+  Link,
+  createRootRouteWithContext,
+  useRouter,
+  HeadContent,
+  Scripts,
+} from "@tanstack/react-router";
+import { useEffect, type ReactNode } from "react";
+
+import appCss from "../styles.css?url";
+import { reportLovableError } from "../lib/lovable-error-reporting";
+import { StoreProvider } from "../lib/store";
+import { Toaster } from "../components/ui/sonner";
+
+function NotFoundComponent() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <div className="max-w-md text-center">
+        <h1 className="font-display text-6xl text-foreground">404</h1>
+        <h2 className="mt-4 text-xl font-semibold text-foreground">Sidan finns inte</h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Sidan du letar efter finns inte längre.
+        </p>
+        <div className="mt-6">
+          <Link
+            to="/"
+            className="inline-flex min-h-12 items-center justify-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground"
+          >
+            Till startsidan
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+  console.error(error);
+  const router = useRouter();
+  useEffect(() => {
+    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+  }, [error]);
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <div className="max-w-md text-center">
+        <h1 className="font-display text-xl text-foreground">Något gick fel</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Försök igen eller gå tillbaka till startsidan.
+        </p>
+        <div className="mt-6 flex flex-wrap justify-center gap-2">
+          <button
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
+            className="inline-flex min-h-12 items-center justify-center rounded-full bg-primary px-6 text-sm font-semibold text-primary-foreground"
+          >
+            Försök igen
+          </button>
+          <a
+            href="/"
+            className="inline-flex min-h-12 items-center justify-center rounded-full border border-input bg-card px-6 text-sm font-semibold text-foreground"
+          >
+            Till startsidan
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  head: () => ({
+    meta: [
+      { charSet: "utf-8" },
+      {
+        name: "viewport",
+        content: "width=device-width, initial-scale=1, viewport-fit=cover",
+      },
+      { title: "Kransbokning" },
+      { name: "description", content: "Enkelt bokningsverktyg för kransbindningsevent." },
+      { name: "theme-color", content: "#faf8f2" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-title", content: "Kransbokning" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "default" },
+      { name: "mobile-web-app-capable", content: "yes" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "apple-touch-icon", href: "/icons/icon-192.png" },
+      { rel: "icon", type: "image/png", href: "/favicon.png" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap",
+      },
+    ],
+  }),
+  shellComponent: RootShell,
+  component: RootComponent,
+  notFoundComponent: NotFoundComponent,
+  errorComponent: ErrorComponent,
+});
+
+function RootShell({ children }: { children: ReactNode }) {
+  return (
+    <html lang="sv">
+      <head>
+        <HeadContent />
+      </head>
+      <body>
+        {children}
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
+function RootComponent() {
+  const { queryClient } = Route.useRouteContext();
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <StoreProvider>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+        <Toaster position="top-center" />
+      </StoreProvider>
+    </QueryClientProvider>
+  );
+}
