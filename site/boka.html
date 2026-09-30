@@ -34,7 +34,7 @@ opacity:.95}
 .dates{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.date{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:22px;text-align:center;box-shadow:0 8px 24px #4a3b2810;cursor:pointer;transition:.15s}.date:hover,.date.selected{transform:translateY(-2px);border-color:var(--olive);box-shadow:0 10px 28px #4a3b2820}.date small{letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}.date strong{font-family:Georgia,serif;font-size:48px;font-weight:500;display:block;line-height:1.05;margin-top:8px}.date .month{font-family:Georgia,serif;font-size:17px;letter-spacing:.08em}.date .availability{display:block;margin:12px 0;color:var(--olive2);font-size:14px}.date .pick{display:block;background:var(--olive);color:white;border-radius:12px;padding:11px;font-weight:700}
 .booking-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:stretch}.card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:28px}.card h2{font-size:34px;margin:0 0 8px}.lead{color:var(--muted);line-height:1.5;margin-top:0}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{display:block;font-size:13px;font-weight:750;margin:8px 0 5px}input,select,textarea{width:100%;font:inherit;border:1px solid var(--line);background:#fffdfa;border-radius:13px;padding:13px 14px;color:var(--ink)}textarea{min-height:112px;resize:vertical}
-.submit{width:100%;margin-top:14px;min-height:50px;border:0;border-radius:13px;background:var(--olive);color:white;font-size:16px;font-weight:800}.submit:active{background:var(--olive2)}
+.selected-date{display:none;margin:14px 0 18px;padding:14px 16px;border:1px solid #c8d5c1;background:#edf4e9;border-radius:13px;line-height:1.45}.selected-date b{display:block;margin-bottom:3px}.submit{width:100%;margin-top:14px;min-height:50px;border:0;border-radius:13px;background:var(--olive);color:white;font-size:16px;font-weight:800}.submit:active{background:var(--olive2)}
 .info{background:linear-gradient(160deg,#ebe2d4,#d9ccb9);display:flex;flex-direction:column;justify-content:flex-end;min-height:100%}.info h3{font-size:30px;margin:0 0 10px}.info ul{padding:0;margin:14px 0 0;list-style:none}.info li{margin:10px 0}.info li:before{content:"✓";color:var(--olive);font-weight:900;margin-right:8px}
 .success{display:none;margin-top:16px;border:1px solid #c8d5c1;background:#edf4e9;padding:18px;border-radius:14px;line-height:1.5}.success h3{font-family:Georgia,serif;font-size:25px;margin:0 0 8px}.success .confirm-details{margin:12px 0;padding:12px 14px;background:#ffffff99;border-radius:10px}.success .confirm-details div{margin:4px 0}.success .small{font-size:12px;color:var(--muted);margin-top:10px}
 .contact{background:linear-gradient(130deg,var(--olive2),#2d3729);color:white;padding:38px 36px;display:flex;align-items:center;justify-content:space-between;gap:20px}.contact h2{font-size:34px;margin:0 0 6px}.contact p{margin:0;color:#ffffffcc}.contact-actions{display:flex;gap:10px;flex-wrap:wrap}.contact a{background:white;color:var(--olive2);text-decoration:none;border-radius:999px;padding:12px 16px;font-weight:800}
@@ -85,6 +85,7 @@ opacity:.95}
     <div class="card">
       <h2>Boka din plats</h2>
       <p class="lead">Fyll i formuläret så återkommer Linda med en bekräftelse och praktisk information. 545 kr per person. Max 10 personer per tillfälle.</p>
+      <div id="selectedDateBox" class="selected-date" aria-live="polite"></div>
       <form id="bookingForm">
         <input type="hidden" id="chosenDate">
         <div class="grid">
@@ -123,6 +124,9 @@ dateButtons.forEach(btn=>btn.addEventListener("click",()=>{
   dateButtons.forEach(b=>b.classList.remove("selected"));
   btn.classList.add("selected");
   document.getElementById("chosenDate").value=btn.dataset.date;
+  const selectedDateBox=document.getElementById("selectedDateBox");
+  selectedDateBox.innerHTML=`<b>Du har valt:</b>${btn.dataset.date}<br><span>Du bokar nu in dig på detta tillfälle.</span>`;
+  selectedDateBox.style.display="block";
   document.getElementById("boka").scrollIntoView({behavior:"smooth"});
 }));
 document.getElementById("bookingForm").addEventListener("submit",e=>{
