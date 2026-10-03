@@ -7,5 +7,5 @@ header('Cache-Control: no-store');
 if (!is_installed() || admin_current() === null) {
     json_out(['ok' => false], 401);
 }
-$row = db()->query('SELECT COUNT(*) AS n, COALESCE(MAX(updated_at), \'\') AS u FROM ' . T_BOOKINGS)->fetch();
-json_out(['ok' => true, 'sig' => $row['n'] . '|' . $row['u']]);
+$row = db()->query('SELECT (SELECT COUNT(*) FROM ' . T_BOOKINGS . ') AS n, (SELECT COALESCE(MAX(updated_at), \'\') FROM ' . T_BOOKINGS . ') AS u, (SELECT COUNT(*) FROM ' . T_MESSAGES . ') AS m, (SELECT COALESCE(MAX(updated_at), \'\') FROM ' . T_MESSAGES . ') AS mu')->fetch();
+json_out(['ok' => true, 'sig' => implode('|', $row)]);

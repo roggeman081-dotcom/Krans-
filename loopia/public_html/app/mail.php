@@ -5,7 +5,7 @@ declare(strict_types=1);
  * E-post är förberett men avstängt tills 'mail_enabled' => true i config.php.
  * Avsändaradressen (mail_from) måste finnas som e-postkonto hos Loopia.
  */
-function krans_send_mail(string $to, string $subject, string $body): bool
+function krans_send_mail(string $to, string $subject, string $body, string $replyTo = ''): bool
 {
     if (!cfg('mail_enabled', false)) {
         return false;
@@ -17,7 +17,7 @@ function krans_send_mail(string $to, string $subject, string $body): bool
     $fromName = mb_encode_mimeheader((string) cfg('mail_from_name', 'Kransbindning'), 'UTF-8', 'B');
     $headers = [
         'From: ' . $fromName . ' <' . $from . '>',
-        'Reply-To: ' . $from,
+        'Reply-To: ' . ($replyTo !== '' && filter_var($replyTo, FILTER_VALIDATE_EMAIL) ? $replyTo : $from),
         'MIME-Version: 1.0',
         'Content-Type: text/plain; charset=UTF-8',
         'Content-Transfer-Encoding: 8bit',
@@ -55,5 +55,14 @@ function krans_mail_new_booking(array $booking, string $sessionLabel): void
             $booking['message'] !== '' ? 'Meddelande: ' . $booking['message'] : '',
         ];
         krans_send_mail($notify, 'Ny kransbokning: ' . $booking['name'], implode("\n", $admin));
+    }
+}
+
+/** Kundens meddelande till Linda. Adressen står bara i config.php och visas aldrig på sidan. */
+function krans_mail_contact(string $name, string $email, string $message): void
+{
+    $notify = (string) cfg('notify_email', '');
+    if ($notify !== '') {
+        krans_send_mail($notify, 'Meddelande från ' . $name, $message . "\n\n" . $name . ', ' . $email, $email);
     }
 }

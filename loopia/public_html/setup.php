@@ -37,6 +37,7 @@ if ($error === '' && !$installed && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST
         if (setting('secret') === null) {
             set_setting('secret', bin2hex(random_bytes(32)));
         }
+        set_setting('schema_version', SCHEMA_VERSION);
         set_setting('admin_password_hash', password_hash($pw, PASSWORD_DEFAULT));
         $done = true;
     }

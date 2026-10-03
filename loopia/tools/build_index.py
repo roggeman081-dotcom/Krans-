@@ -17,6 +17,9 @@ rep('<div id="success" class="success" role="status" aria-live="polite"></div>',
 rep('<div class="note">Din bokning är en förfrågan tills den har bekräftats.</div>', '<div class="note">Din bokning är en förfrågan tills den har bekräftats. Dina uppgifter används bara för att hantera bokningen.</div>')
 rep('Frågor om workshopen? <b>Kontakta Linda</b>.<br>Telefon och e-post läggs in när bokningen kopplas skarpt.', 'Frågor om workshopen? <b>Kontakta Linda</b>.')
 
+contact = '<section class="section" id="kontakt"><h2>Har du en fråga?</h2><p class="small">Skriv till Linda här, så svarar hon via e-post.</p><div class="card"><form id="contactForm"><p class="hp" aria-hidden="true"><label>Lämna tomt<input id="cWebsite" tabindex="-1" autocomplete="off"></label></p><div class="grid two"><div><label for="cName">Namn</label><input id="cName" autocomplete="name" required placeholder="För- och efternamn"></div><div><label for="cEmail">E-post</label><input id="cEmail" type="email" autocomplete="email" required placeholder="namn@exempel.se"></div></div><label for="cMessage">Meddelande</label><textarea id="cMessage" required maxlength="2000" placeholder="Skriv din fråga här."></textarea><button class="submit" type="submit">Skicka meddelande</button><div id="contactError" class="error" role="alert"></div><div id="contactSuccess" class="success" role="status" aria-live="polite"></div></form></div></section>'
+rep('<footer class="footer">Frågor om workshopen? <b>Kontakta Linda</b>.</footer>', contact + '<footer class="footer">Kransbindning på Olsgård</footer>')
+
 js = (pathlib.Path(__file__).parent / 'boka.js').read_text(encoding='utf-8')
 a = s.index('<script>'); b = s.index('</script>') + 9
 s = s[:a] + '<script>\n' + js + '</script>' + s[b:]

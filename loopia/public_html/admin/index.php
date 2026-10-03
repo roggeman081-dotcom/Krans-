@@ -11,6 +11,12 @@ $self = 'index.php' . ($passFilter ? '?pass=' . $passFilter : '');
 /* ---- Ändra bokningsstatus / betalstatus ---- */
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     csrf_check($token);
+    if (isset($_POST['msg_id'])) {
+        $db->prepare('UPDATE ' . T_MESSAGES . ' SET handled = ?, updated_at = ? WHERE id = ?')
+           ->execute([empty($_POST['handled']) ? 0 : 1, now(), (int) $_POST['msg_id']]);
+        header('Location: ' . $self . ($passFilter ? '&' : '?') . 'msg=sparat#meddelanden');
+        exit;
+    }
     $id = (int) ($_POST['id'] ?? 0);
     $status = (string) ($_POST['status'] ?? '');
     $payment = (string) ($_POST['payment_status'] ?? '');
@@ -77,7 +83,9 @@ $interest = $db->query('SELECT s.id,
         (SELECT COUNT(*) FROM ' . T_BOOKINGS . ' b WHERE b.session_id = s.id) AS sent
     FROM ' . T_SESSIONS . ' s ORDER BY clicks DESC, s.starts_at')->fetchAll();
 
-$sig = $db->query('SELECT COUNT(*) AS n, COALESCE(MAX(updated_at), \'\') AS u FROM ' . T_BOOKINGS)->fetch();
+$messages = $db->query('SELECT * FROM ' . T_MESSAGES . ' ORDER BY handled, created_at DESC, id DESC')->fetchAll();
+$unread = count(array_filter($messages, fn ($m) => !$m['handled']));
+$sig = $db->query('SELECT (SELECT COUNT(*) FROM ' . T_BOOKINGS . ') AS n, (SELECT COALESCE(MAX(updated_at), \'\') FROM ' . T_BOOKINGS . ') AS u, (SELECT COUNT(*) FROM ' . T_MESSAGES . ') AS m, (SELECT COALESCE(MAX(updated_at), \'\') FROM ' . T_MESSAGES . ') AS mu')->fetch();
 $flash = ['sparat' => ['Sparat.', ''], 'fullt' => ['Passet är fullt – bokningen kan inte aktiveras igen.', 'err'], 'fel' => ['Kunde inte spara.', 'err']][$_GET['msg'] ?? ''] ?? null;
 
 $short = fn (array $s): string => mb_substr($s['weekday'], 0, 3) . ' ' . date('j/n', strtotime($s['starts_at'])) . ' ' . mb_substr($s['time'], 0, 5);
@@ -141,6 +149,27 @@ admin_page_head('Admin – kransbokning');
   </div>
 </section>
 
+<section class="section" id="meddelanden">
+  <h2>Meddelanden<?php if ($unread): ?><span class="badge"><?= $unread ?></span><?php endif; ?></h2>
+  <p class="small">Från kontaktformuläret på bokningssidan. Svara från din egen e-post.</p>
+  <div class="card">
+    <?php if (!$messages): ?><p class="empty">Inga meddelanden än.</p><?php endif; ?>
+    <?php foreach ($messages as $m): ?>
+    <article class="booking<?= $m['handled'] ? ' off' : '' ?>">
+      <div class="who"><b><?= h($m['name']) ?></b><span><?= h(date('j/n \k\l. H.i', strtotime($m['created_at']))) ?></span></div>
+      <div class="contact" style="margin-top:2px"><a href="mailto:<?= h($m['email']) ?>"><?= h($m['email']) ?></a></div>
+      <div class="msg what"><?= h($m['message']) ?></div>
+      <form method="post" action="<?= h($self) ?>" class="actions">
+        <input type="hidden" name="csrf" value="<?= h(csrf_token($token)) ?>"><input type="hidden" name="msg_id" value="<?= (int) $m['id'] ?>">
+        <a class="btn" href="mailto:<?= h($m['email']) ?>?subject=<?= rawurlencode('Kransbindning på Olsgård') ?>">Svara</a>
+        <?php if ($m['handled']): ?><button class="btn ghost" type="submit">Markera ohanterat</button>
+        <?php else: ?><input type="hidden" name="handled" value="1"><button class="btn ghost" type="submit">Klart</button><?php endif; ?>
+      </form>
+    </article>
+    <?php endforeach; ?>
+  </div>
+</section>
+
 <section class="section">
   <h2>Statistik</h2>
   <p class="small">Bokningssidan, sedan start.</p>
@@ -165,7 +194,7 @@ admin_page_head('Admin – kransbokning');
 
 <script>
 (function(){
-  var sig = <?= json_encode($sig['n'] . '|' . $sig['u']) ?>;
+  var sig = <?= json_encode(implode('|', $sig)) ?>;
   setInterval(function(){
     if (document.hidden) return;
     fetch('poll.php', {credentials:'same-origin', cache:'no-store'}).then(function(r){ return r.json(); }).then(function(d){

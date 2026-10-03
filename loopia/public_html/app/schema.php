@@ -66,6 +66,18 @@ function krans_install_schema(PDO $db): void
         KEY idx_ip_created (ip_key, created_at)
     )' . $tail);
 
+    $db->exec('CREATE TABLE IF NOT EXISTS ' . T_MESSAGES . ' (
+        id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        email VARCHAR(190) NOT NULL,
+        message TEXT NOT NULL,
+        handled TINYINT(1) NOT NULL DEFAULT 0,
+        visitor CHAR(16) NULL,
+        created_at DATETIME NOT NULL,
+        updated_at DATETIME NOT NULL,
+        KEY idx_created (created_at)
+    )' . $tail);
+
     if ((int) $db->query('SELECT COUNT(*) FROM ' . T_SESSIONS)->fetchColumn() === 0) {
         $st = $db->prepare('INSERT INTO ' . T_SESSIONS . ' (starts_at, ends_at, capacity, price) VALUES (?, ?, 10, 495)');
         foreach ([

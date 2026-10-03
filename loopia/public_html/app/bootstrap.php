@@ -18,6 +18,8 @@ const T_EVENTS   = 'krans_events';
 const T_SETTINGS = 'krans_settings';
 const T_TOKENS   = 'krans_admin_tokens';
 const T_ATTEMPTS = 'krans_login_attempts';
+const T_MESSAGES = 'krans_messages';
+const SCHEMA_VERSION = '2';
 
 const BOOKING_STATUSES = ['ny' => 'Ny', 'bekraftad' => 'Bekräftad', 'avbokad' => 'Avbokad'];
 const PAYMENT_STATUSES = ['obetald' => 'Obetald', 'betald' => 'Betald', 'aterbetald' => 'Återbetald'];
@@ -210,6 +212,17 @@ function api_start(): void
     });
     if (!is_installed()) {
         json_out(['ok' => false, 'error' => 'not_installed', 'message' => 'Bokningen är inte aktiverad än.'], 503);
+    }
+    ensure_schema();
+}
+
+/** Skapar tabeller som tillkommit efter första installationen. */
+function ensure_schema(): void
+{
+    if (setting('schema_version') !== SCHEMA_VERSION) {
+        require_once __DIR__ . '/schema.php';
+        krans_install_schema(db());
+        set_setting('schema_version', SCHEMA_VERSION);
     }
 }
 

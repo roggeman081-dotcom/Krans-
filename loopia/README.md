@@ -26,6 +26,7 @@ Kontroll: `https://krans.liroelteknik.se/app/config.php` ska ge "Forbidden". Gö
 - **Admin.** Inloggning med lösenord, giltig 30 dagar per enhet. Fem felaktiga försök ger en kvarts spärr. Sidan laddar om sig själv när en ny bokning kommer in.
 - **Statistik.** Besök och datumklick räknas utan cookies. Besökar-id är en dygnsvis hash som inte går att räkna tillbaka till en IP-adress.
 - **E-post.** Förberett i `app/mail.php`. Sätt `'mail_enabled' => true` i `config.php` när avsändaradressen finns som e-postkonto hos Loopia. `notify_email` ger Linda ett mejl per bokning.
+- **Kontaktformulär.** Meddelanden från bokningssidan sparas i databasen och visas under Meddelanden i admin. Lindas e-postadress finns aldrig på sidan. Med `mail_enabled` och `notify_email` får hon dem även som mejl.
 - **Skydd.** Dolt robotfält, högst 5 bokningar per besökare och timme, API:t tar bara emot anrop från sidorna i `allowed_origins`.
 
 ## Ändra pass, pris eller antal platser
@@ -35,3 +36,7 @@ Görs i tabellen `krans_sessions` (phpMyAdmin i Loopia Kundzon): `starts_at`, `e
 ## Utveckling
 
 `public_html/index.html` byggs från `site/boka.html` med `python3 loopia/tools/build_index.py`. Ändra designen i `site/boka.html` och bokningslogiken i `tools/boka.js`.
+
+## Uppdatera
+
+Ladda upp filerna i `public_html/` igen. `app/config.php` berörs inte, och nya tabeller skapas automatiskt vid nästa sidvisning.

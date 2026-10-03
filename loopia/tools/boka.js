@@ -87,6 +87,20 @@
     }).then(function(){ button.disabled = false; button.textContent = label; });
   });
 
+  var cForm = $('contactForm'), cError = $('contactError'), cSuccess = $('contactSuccess'), cButton = cForm.querySelector('.submit');
+  cForm.addEventListener('submit', function(e){
+    e.preventDefault(); cError.style.display = 'none'; cSuccess.style.display = 'none';
+    var data = {name: $('cName').value.trim(), email: $('cEmail').value.trim(), message: $('cMessage').value.trim(), website: $('cWebsite').value};
+    var label = cButton.textContent; cButton.disabled = true; cButton.textContent = 'Skickar…';
+    post('contact.php', data).then(function(r){ return r.json(); }).then(function(d){
+      if (!d.ok) { cError.textContent = d.message || 'Meddelandet kunde inte skickas. Försök igen.'; cError.style.display = 'block'; return; }
+      cSuccess.innerHTML = ''; cSuccess.appendChild(el('h3', null, 'Tack för ditt meddelande!')); cSuccess.appendChild(el('div', null, 'Linda svarar dig via e-post så snart hon kan.'));
+      cSuccess.style.display = 'block'; cForm.reset();
+    }).catch(function(){
+      cError.textContent = 'Meddelandet kunde inte skickas. Kontrollera uppkopplingen och försök igen.'; cError.style.display = 'block';
+    }).then(function(){ cButton.disabled = false; cButton.textContent = label; });
+  });
+
   load(); track('visit');
   document.addEventListener('visibilitychange', function(){ if (!document.hidden) load(); });
 })();

@@ -30,6 +30,7 @@ function require_admin(): string
         header('Location: ../setup.php');
         exit;
     }
+    ensure_schema();
     $token = admin_current();
     if ($token === null) {
         header('Location: login.php');
@@ -158,7 +159,7 @@ th,td{padding:10px 8px;text-align:right;border-top:1px solid var(--line)}
 th{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-top:0}
 th:first-child,td:first-child{text-align:left;padding-left:16px;color:var(--ink);white-space:nowrap}th{white-space:nowrap}
 th:last-child,td:last-child{padding-right:16px}
-.empty{padding:22px 16px;color:var(--muted)}
+.empty{padding:22px 16px;color:var(--muted)}.badge{display:inline-block;margin-left:8px;padding:2px 9px;border-radius:999px;background:var(--olive);color:#fff;font:700 13px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;vertical-align:middle}
 .narrow{max-width:420px;margin:auto}
 @media(min-width:640px){.section{padding:36px 32px}.top{padding:0 32px}.flash{margin:20px 32px 0}}
 </style></head><body><div class="page">
