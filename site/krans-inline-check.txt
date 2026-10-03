@@ -1,0 +1,1 @@
+I am replacing the broken image source with a direct JPEG file next.
