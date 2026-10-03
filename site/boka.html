@@ -5,145 +5,95 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f3eee4">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Bind din egen julkrans</title>
+<title>Bind din egen julkrans med Linda</title>
+<meta name="description" content="Boka en mysig julkransworkshop med Linda. 545 kr per person – allt material och fika ingår.">
+<meta property="og:title" content="Bind din egen julkrans med Linda">
+<meta property="og:description" content="545 kr/person · allt material och fika ingår. Välj datum och boka din plats.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://roggeman081-dotcom.github.io/Krans-/krans.jpg">
+<meta property="og:url" content="https://roggeman081-dotcom.github.io/Krans-/boka.html">
+<meta name="twitter:card" content="summary_large_image">
 <style>
-:root{--ink:#28251f;--olive:#556148;--olive2:#3e4936;--cream:#f3eee4;--paper:#fbf8f1;--line:#ddd3c4;--muted:#766f65;--berry:#8b3f38}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-a{color:inherit}.page{max-width:1080px;margin:auto;background:var(--cream);min-height:100vh}
-.topbar{height:70px;padding:0 28px;display:flex;align-items:center;justify-content:space-between;background:#fbf8f2f2;position:sticky;top:0;z-index:20;border-bottom:1px solid #e7dfd2}
-.brand{font-family:Georgia,serif;font-style:italic;font-size:30px}.brand span{font-size:20px;color:var(--olive)}
-.topbtn{background:var(--olive);color:white;text-decoration:none;border-radius:999px;padding:12px 20px;font-weight:700}
-.hero{display:grid;grid-template-columns:1.05fr .95fr;min-height:520px;background:linear-gradient(135deg,#f8f3e9,#eee4d5);overflow:hidden}
-.hero-copy{padding:64px 52px 42px}.eyebrow{letter-spacing:.18em;text-transform:uppercase;font-size:12px;font-weight:800;color:#817761;margin-bottom:16px}
-h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:500}.hero h1{font-size:58px;line-height:.98;margin:0 0 22px}.hero p{font-family:Georgia,serif;font-size:18px;line-height:1.55;max-width:500px;margin:0;color:#4f4a43}
-.hero-art{position:relative;min-height:520px;overflow:hidden;background:#d7c5ad}.hero-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 28%;display:block}
-.hero-art:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,#00000014);opacity:1}
-
-.features{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:24px 36px;background:var(--paper);border-bottom:1px solid var(--line)}
-.feature{text-align:center;padding:8px}.ico{font-size:25px;display:block;margin-bottom:6px}.feature b{font-size:11px;text-transform:uppercase;letter-spacing:.05em}
-.section{padding:50px 36px}.section-title{text-align:center;margin-bottom:26px}.section-title h2{font-size:38px;margin:0 0 8px}.section-title p{margin:0;color:var(--muted)}
-.dates{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.date{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:22px;text-align:center;box-shadow:0 8px 24px #4a3b2810;cursor:pointer;transition:.15s}.date:hover,.date.selected{transform:translateY(-2px);border-color:var(--olive);box-shadow:0 10px 28px #4a3b2820}.date small{letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:700}.date strong{font-family:Georgia,serif;font-size:48px;font-weight:500;display:block;line-height:1.05;margin-top:8px}.date .month{font-family:Georgia,serif;font-size:17px;letter-spacing:.08em}.date .availability{display:block;margin:12px 0;color:var(--olive2);font-size:14px}.date .pick{display:block;background:var(--olive);color:white;border-radius:12px;padding:11px;font-weight:700}
-.booking-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:stretch}.card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:28px}.card h2{font-size:34px;margin:0 0 8px}.lead{color:var(--muted);line-height:1.5;margin-top:0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{display:block;font-size:13px;font-weight:750;margin:8px 0 5px}input,select,textarea{width:100%;font:inherit;border:1px solid var(--line);background:#fffdfa;border-radius:13px;padding:13px 14px;color:var(--ink)}textarea{min-height:112px;resize:vertical}
-.selected-date{display:none;margin:14px 0 18px;padding:14px 16px;border:1px solid #c8d5c1;background:#edf4e9;border-radius:13px;line-height:1.45}.selected-date b{display:block;margin-bottom:3px}.submit{width:100%;margin-top:14px;min-height:50px;border:0;border-radius:13px;background:var(--olive);color:white;font-size:16px;font-weight:800}.submit:active{background:var(--olive2)}
-.info{background:linear-gradient(160deg,#ebe2d4,#d9ccb9);display:flex;flex-direction:column;justify-content:flex-end;min-height:100%}.info h3{font-size:30px;margin:0 0 10px}.info ul{padding:0;margin:14px 0 0;list-style:none}.info li{margin:10px 0}.info li:before{content:"✓";color:var(--olive);font-weight:900;margin-right:8px}
-.success{display:none;margin-top:16px;border:1px solid #c8d5c1;background:#edf4e9;padding:18px;border-radius:14px;line-height:1.5}.success h3{font-family:Georgia,serif;font-size:25px;margin:0 0 8px}.success .confirm-details{margin:12px 0;padding:12px 14px;background:#ffffff99;border-radius:10px}.success .confirm-details div{margin:4px 0}.success .small{font-size:12px;color:var(--muted);margin-top:10px}
-.contact{background:linear-gradient(130deg,var(--olive2),#2d3729);color:white;padding:38px 36px;display:flex;align-items:center;justify-content:space-between;gap:20px}.contact h2{font-size:34px;margin:0 0 6px}.contact p{margin:0;color:#ffffffcc}.contact-actions{display:flex;gap:10px;flex-wrap:wrap}.contact a{background:white;color:var(--olive2);text-decoration:none;border-radius:999px;padding:12px 16px;font-weight:800}
-.note{font-size:12px;color:var(--muted);margin-top:12px}
-@media(max-width:760px){
-.topbar{height:58px;padding:0 16px}.brand{font-size:25px}.topbtn{padding:9px 14px;font-size:13px}
-.hero{grid-template-columns:1fr}.hero-art{order:-1;min-height:295px}.hero-copy{padding:30px 20px 28px}.hero h1{font-size:43px}.hero p{font-size:16px}
-.features{grid-template-columns:repeat(2,1fr);padding:18px 12px}.feature{border-radius:12px}.section{padding:34px 14px}.section-title h2{font-size:31px}
-.dates{grid-template-columns:1fr}.date{display:grid;grid-template-columns:92px 1fr;align-items:center;text-align:left;padding:16px}.date strong{font-size:38px}.date .pick{grid-column:1/-1;text-align:center;margin-top:8px}.date .availability{margin:5px 0}.booking-wrap{grid-template-columns:1fr}.card{padding:20px}.grid{grid-template-columns:1fr}.info{min-height:300px}.contact{padding:28px 18px;display:block}.contact-actions{margin-top:18px}.contact h2{font-size:29px}
-}
+:root{--ink:#28251f;--olive:#556148;--olive2:#3e4936;--cream:#f3eee4;--paper:#fbf8f1;--line:#ddd3c4;--muted:#766f65}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:inherit}.page{max-width:760px;margin:auto;min-height:100vh;background:var(--cream)}
+.topbar{height:58px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;background:#fbf8f2f2;position:sticky;top:0;z-index:20;border-bottom:1px solid #e7dfd2}.brand{font-family:Georgia,serif;font-style:italic;font-size:25px}.brand span{color:var(--olive)}.topbtn{background:var(--olive);color:white;text-decoration:none;border-radius:999px;padding:10px 14px;font-size:13px;font-weight:800}
+.hero-art{height:300px;overflow:hidden;background:#d7c5ad}.hero-art img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block}.intro{padding:26px 18px 20px;text-align:center}.eyebrow{letter-spacing:.15em;text-transform:uppercase;font-size:11px;font-weight:800;color:#817761;margin-bottom:10px}h1,h2{font-family:Georgia,"Times New Roman",serif;font-weight:500}h1{font-size:40px;line-height:1.03;margin:0 0 12px}.intro p{margin:0 auto 14px;max-width:570px;color:#4f4a43;line-height:1.5}.facts{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}.fact{background:var(--paper);border:1px solid var(--line);border-radius:999px;padding:8px 11px;font-size:13px;font-weight:750}
+.section{padding:22px 14px}.section-title{text-align:center;margin-bottom:16px}.section-title h2{font-size:30px;margin:0 0 6px}.section-title p{margin:0;color:var(--muted);font-size:14px}.dates{display:grid;gap:10px}.date{background:var(--paper);border:1px solid var(--line);border-radius:17px;padding:15px;display:grid;grid-template-columns:78px 1fr;align-items:center;text-align:left;box-shadow:0 4px 16px #4a3b2810;cursor:pointer}.date.selected{border:2px solid var(--olive);padding:14px}.date small{letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:800;font-size:10px}.date strong{font-family:Georgia,serif;font-size:36px;font-weight:500;display:block;line-height:1}.month{font-family:Georgia,serif;font-size:14px}.time{font-weight:750}.availability{display:block;margin-top:5px;color:var(--olive2);font-size:13px}.pick{grid-column:1/-1;text-align:center;background:var(--olive);color:white;border-radius:11px;padding:10px;margin-top:10px;font-weight:800;font-size:14px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:19px;padding:18px}.card h2{font-size:29px;margin:0 0 6px}.lead{color:var(--muted);line-height:1.45;margin:0 0 10px;font-size:14px}.selected-date{display:none;margin:12px 0 14px;padding:12px 14px;border:1px solid #c8d5c1;background:#edf4e9;border-radius:12px;line-height:1.4}.selected-date b{display:block;margin-bottom:2px}.grid{display:grid;grid-template-columns:1fr;gap:0}label{display:block;font-size:13px;font-weight:750;margin:8px 0 5px}input,select,textarea{width:100%;font:inherit;border:1px solid var(--line);background:#fffdfa;border-radius:12px;padding:13px;color:var(--ink);font-size:16px}textarea{min-height:90px;resize:vertical}.submit{width:100%;margin-top:13px;min-height:52px;border:0;border-radius:12px;background:var(--olive);color:white;font-size:16px;font-weight:850}.submit:active{background:var(--olive2)}.note{font-size:12px;color:var(--muted);margin-top:10px;text-align:center}.success{display:none;margin-top:14px;border:1px solid #c8d5c1;background:#edf4e9;padding:16px;border-radius:13px;line-height:1.45}.success h3{font-family:Georgia,serif;font-size:24px;margin:0 0 7px}.confirm-details{margin:10px 0;padding:11px 12px;background:#ffffff99;border-radius:9px}.confirm-details div{margin:3px 0}.small{font-size:12px;color:var(--muted);margin-top:9px}.footer{text-align:center;padding:28px 18px 42px;color:var(--muted);font-size:13px}
+@media(min-width:640px){.hero-art{height:380px}.intro{padding:34px 30px 26px}h1{font-size:50px}.section{padding:28px 28px}.dates{grid-template-columns:1fr 1fr}.date{grid-template-columns:82px 1fr}.grid.two{grid-template-columns:1fr 1fr;gap:12px}.card{padding:24px}}
 </style>
 </head>
 <body>
 <div class="page">
-<header class="topbar">
-  <div class="brand">Linda <span>❦</span></div>
-  <a class="topbtn" href="#boka">Boka din plats</a>
-</header>
+<header class="topbar"><div class="brand">Linda <span>❦</span></div><a class="topbtn" href="#tillfallen">Välj tillfälle</a></header>
 
-<section class="hero">
-  <div class="hero-copy">
-    <div class="eyebrow">Kreativ workshop</div>
-    <h1>Bind din<br>egen julkrans</h1>
-    <p>Välkommen till en stämningsfull stund där vi skapar vackra julkransar med naturens material. Njut av kreativitet, gemenskap, fika och riktig julkänsla.</p>
-  </div>
-  <div class="hero-art"><img src="./krans.jpg?v=e634ead" alt="Julkrans i rustik vintermiljö"></div>
+<div class="hero-art"><img src="./krans.jpg?v=e634ead" alt="Julkrans i rustik vintermiljö"></div>
+<section class="intro">
+  <div class="eyebrow">Julkransworkshop</div>
+  <h1>Bind din egen julkrans med Linda</h1>
+  <p>En mysig och kreativ stund inför jul. Du får vägledning och skapar din egen krans i lugn miljö.</p>
+  <div class="facts"><span class="fact">545 kr/person</span><span class="fact">Material ingår</span><span class="fact">Fika ingår</span><span class="fact">Max 10 personer</span></div>
 </section>
 
-<section class="features">
-  <div class="feature"><span class="ico">🌿</span><b>Allt material ingår</b></div>
-  <div class="feature"><span class="ico">☕</span><b>Fika & god stämning</b></div>
-  <div class="feature"><span class="ico">◉◉◉</span><b>Max 10 personer</b></div>
-  <div class="feature"><span class="ico">545</span><b>545 kr per person</b></div>
-</section>
-
-<section class="section">
-  <div class="section-title"><h2>Kommande tillfällen</h2><p>Välj det tillfälle som passar dig. 545 kr per person och max 10 platser per tillfälle.</p></div>
+<section class="section" id="tillfallen">
+  <div class="section-title"><h2>Välj tillfälle</h2><p>Tryck på datumet du vill boka.</p></div>
   <div class="dates">
-    <div class="date" data-date="Lördag 14 november kl. 13.00–16.00"><div><small>Lördag</small><strong>14</strong><span class="month">November</span></div><div><div>Kl. 13.00–16.00</div><span class="availability">● 10 platser</span></div><span class="pick">Välj detta tillfälle</span></div>
-    <div class="date" data-date="Söndag 15 november kl. 13.00–16.00"><div><small>Söndag</small><strong>15</strong><span class="month">November</span></div><div><div>Kl. 13.00–16.00</div><span class="availability">● 10 platser</span></div><span class="pick">Välj detta tillfälle</span></div>
-    <div class="date" data-date="Söndag 29 november kl. 10.00–13.00"><div><small>Söndag</small><strong>29</strong><span class="month">November</span></div><div><div>Kl. 10.00–13.00</div><span class="availability">● 10 platser</span></div><span class="pick">Välj detta tillfälle</span></div>
-    <div class="date" data-date="Söndag 29 november kl. 15.00–17.00"><div><small>Söndag</small><strong>29</strong><span class="month">November</span></div><div><div>Kl. 15.00–17.00</div><span class="availability">● 10 platser</span></div><span class="pick">Välj detta tillfälle</span></div>
+    <div class="date" data-date="Lördag 14 november kl. 13.00–16.00"><div><small>Lördag</small><strong>14</strong><span class="month">November</span></div><div><div class="time">13.00–16.00</div><span class="availability">● 10 platser</span></div><span class="pick">Välj</span></div>
+    <div class="date" data-date="Söndag 15 november kl. 13.00–16.00"><div><small>Söndag</small><strong>15</strong><span class="month">November</span></div><div><div class="time">13.00–16.00</div><span class="availability">● 10 platser</span></div><span class="pick">Välj</span></div>
+    <div class="date" data-date="Söndag 29 november kl. 10.00–13.00"><div><small>Söndag</small><strong>29</strong><span class="month">November</span></div><div><div class="time">10.00–13.00</div><span class="availability">● 10 platser</span></div><span class="pick">Välj</span></div>
+    <div class="date" data-date="Söndag 29 november kl. 15.00–17.00"><div><small>Söndag</small><strong>29</strong><span class="month">November</span></div><div><div class="time">15.00–17.00</div><span class="availability">● 10 platser</span></div><span class="pick">Välj</span></div>
   </div>
 </section>
 
 <section class="section" id="boka">
-  <div class="booking-wrap">
-    <div class="card">
-      <h2>Boka din plats</h2>
-      <p class="lead">Fyll i formuläret så återkommer Linda med en bekräftelse och praktisk information. 545 kr per person. Max 10 personer per tillfälle.</p>
-      <div id="selectedDateBox" class="selected-date" aria-live="polite"></div>
-      <form id="bookingForm">
-        <input type="hidden" id="chosenDate">
-        <div class="grid">
-          <div><label>Namn</label><input id="name" autocomplete="name" required placeholder="För- och efternamn"></div>
-          <div><label>Mobil</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="070-000 00 00"></div>
-        </div>
-        <div class="grid">
-          <div><label>E-post</label><input id="email" type="email" autocomplete="email" required placeholder="namn@exempel.se"></div>
-          <div><label>Antal personer</label><select id="spots"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select></div>
-        </div>
-        <label>Övrigt / meddelande <span style="font-weight:400">(valfritt)</span></label>
-        <textarea id="message" placeholder="Skriv gärna om det är något särskilt vi behöver veta eller om du har en fråga."></textarea>
-        <button class="submit" type="submit">Skicka bokningsförfrågan</button>
-        <div id="success" class="success" role="status" aria-live="polite"></div>
-      </form>
-      <div class="note">Din bokning är en förfrågan tills Linda har bekräftat den.</div>
-    </div>
-    <aside class="card info">
-      <div>
-        <div class="eyebrow">En kreativ stund inför jul</div>
-        <h3>Naturmaterial, inspiration och en mysig stund tillsammans.</h3>
-        <ul><li>Allt material ingår</li><li>Fika och något gott</li><li>Du får vägledning under hela tillfället</li><li>Ingen tidigare erfarenhet krävs</li></ul>
+  <div class="card">
+    <h2>Boka din plats</h2>
+    <p class="lead">Välj ett tillfälle ovan och fyll sedan i dina uppgifter.</p>
+    <div id="selectedDateBox" class="selected-date" aria-live="polite"></div>
+    <form id="bookingForm">
+      <input type="hidden" id="chosenDate">
+      <div class="grid two">
+        <div><label for="name">Namn</label><input id="name" autocomplete="name" required placeholder="För- och efternamn"></div>
+        <div><label for="phone">Mobil</label><input id="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="070-000 00 00"></div>
       </div>
-    </aside>
+      <div class="grid two">
+        <div><label for="email">E-post</label><input id="email" type="email" autocomplete="email" required placeholder="namn@exempel.se"></div>
+        <div><label for="spots">Antal personer</label><select id="spots"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select></div>
+      </div>
+      <label for="message">Meddelande <span style="font-weight:400">(valfritt)</span></label>
+      <textarea id="message" placeholder="Något särskilt vi behöver veta eller en fråga?"></textarea>
+      <button class="submit" type="submit">Skicka bokningsförfrågan</button>
+      <div id="success" class="success" role="status" aria-live="polite"></div>
+    </form>
+    <div class="note">Bokningen är en förfrågan tills Linda har bekräftat den.</div>
   </div>
 </section>
-
-<footer class="contact">
-  <div><div class="eyebrow" style="color:#ffffffaa;margin-bottom:6px">Frågor?</div><h2>Kontakta Linda</h2><p>Vi byter till Lindas riktiga nummer och e-post när ni vill.</p></div>
-  <div class="contact-actions"><a href="tel:+46700000000">☎ 070-000 00 00</a><a href="mailto:linda@example.se">✉ Skicka e-post</a></div>
-</footer>
+<div class="footer">Julkransworkshop med Linda</div>
 </div>
 <script>
-const dateButtons=[...document.querySelectorAll(".date")];
-dateButtons.forEach(btn=>btn.addEventListener("click",()=>{
-  dateButtons.forEach(b=>b.classList.remove("selected"));
-  btn.classList.add("selected");
-  document.getElementById("chosenDate").value=btn.dataset.date;
-  const selectedDateBox=document.getElementById("selectedDateBox");
-  selectedDateBox.innerHTML=`<b>Du har valt:</b>${btn.dataset.date}<br><span>Du bokar nu in dig på detta tillfälle.</span>`;
-  selectedDateBox.style.display="block";
-  document.getElementById("boka").scrollIntoView({behavior:"smooth"});
+const dateButtons=[...document.querySelectorAll('.date')];
+dateButtons.forEach(btn=>btn.addEventListener('click',()=>{
+  dateButtons.forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const date=btn.dataset.date;
+  document.getElementById('chosenDate').value=date;
+  const box=document.getElementById('selectedDateBox');
+  box.innerHTML=`<b>Du har valt:</b>${date}`;
+  box.style.display='block';
+  document.getElementById('boka').scrollIntoView({behavior:'smooth',block:'start'});
 }));
-document.getElementById("bookingForm").addEventListener("submit",e=>{
+document.getElementById('bookingForm').addEventListener('submit',e=>{
   e.preventDefault();
-  const date=document.getElementById("chosenDate").value;
-  if(!date){alert("Välj ett datum först.");return;}
-  const name=document.getElementById("name").value.trim();
-  const email=document.getElementById("email").value.trim();
-  const spots=document.getElementById("spots").value;
+  const date=document.getElementById('chosenDate').value;
+  if(!date){alert('Välj ett tillfälle först.');document.getElementById('tillfallen').scrollIntoView({behavior:'smooth'});return;}
+  const name=document.getElementById('name').value.trim();
+  const email=document.getElementById('email').value.trim();
+  const spots=document.getElementById('spots').value;
   const total=Number(spots)*545;
-  const success=document.getElementById("success");
-  success.innerHTML=`
-    <h3>Tack, ${name}!</h3>
-    <div>Din bokningsförfrågan är ifylld.</div>
-    <div class="confirm-details">
-      <div><b>Tillfälle:</b> ${date}</div>
-      <div><b>Antal personer:</b> ${spots}</div>
-      <div><b>Pris:</b> 545 kr per person</div>
-      <div><b>Totalt:</b> ${total.toLocaleString("sv-SE")} kr</div>
-      <div><b>E-post:</b> ${email}</div>
-    </div>
-    <div>När bokningsmottagningen är inkopplad kommer samma bekräftelse att skickas till din e-post.</div>
-    <div class="small">Testversion: formuläret skickar ännu inte bokningen till Linda.</div>
-  `;
-  success.style.display="block";
-  success.scrollIntoView({behavior:"smooth",block:"center"});
+  const success=document.getElementById('success');
+  success.innerHTML=`<h3>Tack, ${name}!</h3><div>Din bokningsförfrågan är ifylld.</div><div class="confirm-details"><div><b>Tillfälle:</b> ${date}</div><div><b>Antal personer:</b> ${spots}</div><div><b>Totalt:</b> ${total.toLocaleString('sv-SE')} kr</div><div><b>E-post:</b> ${email}</div></div><div class="small">Testversion: bokningen skickas ännu inte till Linda automatiskt.</div>`;
+  success.style.display='block';
+  success.scrollIntoView({behavior:'smooth',block:'center'});
 });
 </script>
 </body>
