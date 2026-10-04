@@ -8,7 +8,7 @@ def rep(a, b):
     assert s.count(a) == 1, (a[:60], s.count(a))
     s = s.replace(a, b)
 
-rep('https://roggeman081-dotcom.github.io/Krans-/krans720.jpg', 'https://krans.liroelteknik.se/krans720.jpg')
+rep('https://roggeman081-dotcom.github.io/Krans-/krans720.jpg', 'https://olsgaaard.se/krans720.jpg')
 rep('.dates+.small{margin-top:10px}', '.date.full{cursor:default;opacity:.55}.date.full .pick{visibility:hidden}.dates .empty{padding:18px 16px;color:var(--muted)}.left{font-weight:700;color:var(--olive2)}.error{display:none;margin-top:14px;padding:12px 14px;border-radius:var(--r2);background:#f6e7e1;color:#8a3b2a}.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}.submit:disabled{opacity:.6;cursor:default}')
 a = s.index('<div class="dates">'); b = s.index('</section>', a)
 s = s[:a] + '<div class="dates" id="dates" aria-live="polite"><p class="empty">Laddar tillfällen…</p></div>' + s[b:]

@@ -1,5 +1,5 @@
 (function(){
-  var API = /github\.io$/.test(location.hostname) ? 'https://krans.liroelteknik.se/api' : 'api';
+  var API = /github\.io$/.test(location.hostname) ? 'https://olsgaaard.se/api' : 'api';
   var $ = function(id){ return document.getElementById(id); };
   var datesEl = $('dates'), form = $('bookingForm'), errorEl = $('formError'), successEl = $('success');
   var box = $('selectedDateBox'), spots = $('spots'), button = form.querySelector('.submit');

@@ -1,24 +1,25 @@
 # Kransbokning – backend och admin för Loopia
 
 PHP + MariaDB/MySQL. Allt som ska upp på servern ligger i `public_html/`.
+Fristående sajt på egen domän — ingen koppling till liroelteknik.se.
 
 | Adress | Vad |
 |---|---|
-| `krans.liroelteknik.se/` | Bokningssidan (`index.html`) |
-| `krans.liroelteknik.se/admin/` | Lindas adminsida (lösenord) |
-| `krans.liroelteknik.se/api/` | API som bokningssidan anropar |
-| `krans.liroelteknik.se/setup.php` | Engångsinstallation |
+| `olsgaaard.se/` | Bokningssidan (`index.html`) |
+| `olsgaaard.se/admin/` | Lindas adminsida (lösenord) |
+| `olsgaaard.se/api/` | API som bokningssidan anropar |
+| `olsgaaard.se/setup.php` | Engångsinstallation |
 
 ## Installation
 
-1. **Underdomän.** Loopia Kundzon → domänen `liroelteknik.se` → lägg till underdomänen `krans`. Slå på HTTPS (SSL) för den.
+1. **Domän.** Loopia Kundzon → domänen `olsgaaard.se` ska peka mot detta webbhotell (den finns redan i Kundzonen). Slå på HTTPS (SSL) för den om det inte redan är gjort.
 2. **Databas.** Loopia Kundzon → Databaser → skapa en MariaDB/MySQL-databas och en databasanvändare. Notera server, databasnamn, användare och lösenord.
-3. **Ladda upp.** Lägg innehållet i `public_html/` i underdomänens `public_html`-mapp (FTP/SFTP eller filhanteraren). Även de dolda `.htaccess`-filerna ska med.
+3. **Ladda upp.** Lägg innehållet i `public_html/` i domänens `public_html`-mapp (FTP/SFTP eller filhanteraren). Även de dolda `.htaccess`-filerna ska med.
 4. **Konfigurera.** På servern: kopiera `app/config.example.php` till `app/config.php`. Fyll i databasuppgifterna och välj en egen `setup_key` (minst 12 tecken).
-5. **Installera.** Öppna `https://krans.liroelteknik.se/setup.php`. Ange `setup_key` och välj Lindas lösenord (minst 10 tecken). Tabellerna och de fyra passen skapas.
-6. **Klart.** Admin finns på `https://krans.liroelteknik.se/admin/`. Ta bort `setup.php` från servern.
+5. **Installera.** Öppna `https://olsgaaard.se/setup.php`. Ange `setup_key` och välj Lindas lösenord (minst 10 tecken). Tabellerna och de fyra passen skapas.
+6. **Klart.** Admin finns på `https://olsgaaard.se/admin/`. Ta bort `setup.php` från servern.
 
-Kontroll: `https://krans.liroelteknik.se/app/config.php` ska ge "Forbidden". Gör den inte det läses inte `.htaccess` – hör av dig innan sidan används skarpt.
+Kontroll: `https://olsgaaard.se/app/config.php` ska ge "Forbidden". Gör den inte det läses inte `.htaccess` – hör av dig innan sidan används skarpt.
 
 ## Så fungerar det
 
